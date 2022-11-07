@@ -10,8 +10,8 @@ export class Project1SService {
 
   constructor(private httpClient: HttpClient) { }
 
-  apiUrl = "http://localhost:8081/projectone/project1";
-  //apiUrl = "http://localhost:8088/project1"; directement intellij
+ // apiUrl = "http://localhost:8081/projectone/project1";
+  apiUrl = "http://localhost:8088/project1"; 
 
   public somme(data:any):Observable<number>{
     return this.httpClient.post<number>(`${this.apiUrl}/somme`,data);
