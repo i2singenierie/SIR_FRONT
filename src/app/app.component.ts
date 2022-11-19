@@ -307,9 +307,8 @@ localisationElement_effacer.appendChild(sect);
 
 // pour controle effacer
 localisationElement_effacer.addEventListener("click",()=>{
-localisationElement_effacer.classList.toggle('clicked');
   //this.verificationClick = this.verificationClick?false:true;
- // console.log("bouton effecer");
+  // console.log("bouton effecer");
   this.source_orcl_json.clear();
   this.source_orcl_line_json.clear()
  })
