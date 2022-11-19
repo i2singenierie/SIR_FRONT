@@ -130,7 +130,6 @@ fond_carte = new LayerGroup({
 } as GroupLayerOptions);
 
 // fin declaration var layer switcher
-
   verificationClick: boolean =false;
   verificationClick_sect: any;
   format = new GeoJSON();
@@ -226,7 +225,7 @@ map.addControl(layerSwitcher);
 
     this.source_orcl_json.on('addfeature', () =>{
       if(!this.verificationClick_section  || this.verificationClick_sect != undefined ){
-        console.log("achraf bug")
+        console.log(" bug")
         console.log(this.verificationClick_section,this.verificationClick_sect )
         map.getView().fit(
           this.source_orcl_json.getExtent(),
@@ -282,15 +281,41 @@ map.addControl(layerSwitcher);
    element: localisationElement_section
 })
 
+// controle effacer
+var effacer = document.createElement('button');
+effacer.innerHTML = '<i class="bi bi-sign-stop-lights"></i>';
+effacer.className = 'myButton_effacer';
+effacer.id = 'myButton_effacer';
+
+var localisationElement_effacer = document.createElement('div');
+localisationElement_effacer.className = 'localisationDiv_effacer';
+localisationElement_effacer.appendChild(sect);
+
+   var control4 = new Control({
+ element: localisationElement_effacer
+})
+
+
 
      map.addControl(control1);
-  
      map.addControl(control3);
+     map.addControl(control4);
       localisation.addEventListener("click",()=>{
       localisation.classList.toggle('clicked');
       this.verificationClick = this.verificationClick?false:true;
      })
    
+
+// pour controle effacer
+localisationElement_effacer.addEventListener("click",()=>{
+localisationElement_effacer.classList.toggle('clicked');
+  //this.verificationClick = this.verificationClick?false:true;
+  console.log("bouton effecer");
+  this.source_orcl_json.clear();
+  this.source_orcl_line_json.clear()
+ })
+// fin controle effacer
+
       sect.addEventListener("click",()=>{
       sect.classList.toggle('clicked');
       this.verificationClick_section = this.verificationClick_section?false:true;
@@ -677,15 +702,12 @@ map.addOverlay(this.overlay);
           this.source_orcl_line_json.addFeatures(
             this.format.readFeatures(res[0].ROUTE_GEOMETRY)
             );
-  
-            
+
       },
       (err)=>{
         console.log(err);
       }
     );
      }
-
-
 
 }
