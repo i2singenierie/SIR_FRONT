@@ -150,6 +150,7 @@ fond_carte = new LayerGroup({
   content: HTMLElement | undefined;
   overlay: any;
   pk:any;
+  zoomTosegment: boolean= false;
 
   constructor(private project1SService:Project1SService){
     this.getRoutesName()
@@ -216,7 +217,6 @@ map.addControl(layerSwitcher);
  map.addLayer(this.fond_carte)
  map.addLayer(this.wmss)
 
-
 // fin -- pour layer switcher
 
 
@@ -232,9 +232,7 @@ map.addControl(layerSwitcher);
           { duration: 1000, size: map.getSize(), maxZoom: 13 }
       );
       }
-      
-
-       
+  
   });
 
   this.source_orcl_line_json = new VectorSource();
@@ -283,18 +281,17 @@ map.addControl(layerSwitcher);
 
 // controle effacer
 var effacer = document.createElement('button');
-effacer.innerHTML = '<i class="bi bi-sign-stop-lights"></i>';
+effacer.innerHTML = '<i class="bi bi-trash"></i>';
 effacer.className = 'myButton_effacer';
 effacer.id = 'myButton_effacer';
 
 var localisationElement_effacer = document.createElement('div');
 localisationElement_effacer.className = 'localisationDiv_effacer';
-localisationElement_effacer.appendChild(sect);
+localisationElement_effacer.appendChild(effacer);
 
    var control4 = new Control({
  element: localisationElement_effacer
 })
-
 
      map.addControl(control1);
      map.addControl(control3);
@@ -303,14 +300,18 @@ localisationElement_effacer.appendChild(sect);
       localisation.classList.toggle('clicked');
       this.verificationClick = this.verificationClick?false:true;
      })
-   
+
 
 // pour controle effacer
-localisationElement_effacer.addEventListener("click",()=>{
+  localisationElement_effacer.addEventListener("click",()=>{
   //this.verificationClick = this.verificationClick?false:true;
   // console.log("bouton effecer");
   this.source_orcl_json.clear();
   this.source_orcl_line_json.clear()
+  this.overlay.setPosition(undefined);
+  if(closer) closer.blur();
+  return false;
+
  })
 // fin controle effacer
 
@@ -318,10 +319,6 @@ localisationElement_effacer.addEventListener("click",()=>{
       sect.classList.toggle('clicked');
       this.verificationClick_section = this.verificationClick_section?false:true;
      })
-
-     
-     
-    
 
      //add control
 
@@ -668,6 +665,7 @@ map.addOverlay(this.overlay);
 
 
      cc1(){
+      this.zoomTosegment = true;
       console.log(this.pkd);
       console.log(this.pkf);
       console.log(this.selectedRouteT);
